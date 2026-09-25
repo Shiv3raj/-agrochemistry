@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Chem & Agro Lab</title>
+    <style>
+        /* === CSS Styling === */
+        :root {
+            --bg-dark: #0a0a0f;
+            --panel-bg: #151520;
+            --neon-blue: #00f3ff;
+            --neon-green: #39ff14;
+            --neon-pink: #ff00ff;
+            --text-main: #e0e0e0;
+            --border-glow: 0 0 10px rgba(0, 243, 255, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(180deg, rgba(21,21,32,1) 0%, rgba(10,10,15,1) 100%);
+        }
+
+        h1 {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--neon-blue);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            box-shadow: var(--border-glow);
+            transition: var(--transition);
+        }
+
+        #search-input:focus {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+            border-color: #fff;
+        }
+
+        #search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-blue);
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            text-align: left;
+        }
+
+        .search-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .search-item:hover {
+            background: rgba(0, 243, 255, 0.2);
+            color: var(--neon-blue);
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active.gen-tab {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        .tab-btn.active.agro-tab {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        /* Main Content Area */
+        main {
+            flex: 1;
+            padding: 0 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Panels */
+        .lab-panel {
+            background: var(--panel-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .gen-panel { border-top: 3px solid var(--neon-blue); }
+        .agro-panel { border-top: 3px solid var(--neon-green); }
+
+        /* Simulator Layout */
+        .mixer-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        select {
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: 1px solid #555;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            outline: none;
+            min-width: 200px;
+            cursor: pointer;
+        }
+        select:focus { border-color: var(--neon-blue); }
+
+        .mix-sign {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-pink);
+        }
+
+        .btn-mix {
+            background: transparent;
+            color: #fff;
+            border: 2px solid var(--neon-pink);
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            margin-top: 2rem;
+        }
+        .btn-mix:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
+        }
+
+        /* Result Display */
+        .result-area {
+            margin-top: 3rem;
+            min-height: 150px;
+            padding: 2rem;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.4);
+            border: 1px dashed #444;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .result-title { font-size: 1.8rem; margin-bottom: 1rem; }
+        .equation { font-family: monospace; font-size: 1.5rem; color: #aaa; }
+
+        /* Animations */
+        .flask {
+            width: 60px;
+            height: 80px;
+            border: 3px solid rgba(255,255,255,0.5);
+            border-radius: 0 0 30px 30px;
+            position: relative;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            display: none; /* hidden by default */
+        }
+        
+        .flask::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 15px;
+            border: 3px solid rgba(255,255,255,0.5);
+            border-bottom: none;
+        }
+
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--neon-blue);
+            transition: height 1s ease-in-out, background-color 1s;
+        }
+
+        .bubbling .liquid {
+            height: 70%;
+            animation: colorShift 2s infinite alternate;
+        }
+
+        @keyframes colorShift {
+            0% { background: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); }
+            100% { background: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink); }
+        }
+
+        .success-glow {
+            border-color: var(--neon-blue);
+            box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        /* Agro Recipe Card */
+        .agro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .recipe-card {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: left;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.2);
+            border-color: var(--neon-green);
+        }
+
+        .card-title {
+            color: var(--neon-green);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(57,255,20,0.2);
+            padding-bottom: 0.5rem;
+        }
+
+        .card-formula { font-family: monospace; font-size: 1.1rem; color: #fff; margin-bottom: 1rem;}
+        .card-use { font-size: 0.95rem; color: #bbb; margin-bottom: 1rem; line-height: 1.4;}
+        .card-reaction {
+            font-family: monospace;
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .highlight-green { color: var(--neon-green); }
+
+        /* Modal for Search Results */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--panel-bg);
+            border: 2px solid var(--neon-blue);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px; right: 20px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mixer-area { flex-direction: column; gap: 1rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Virtual Chem & Agro Lab</h1>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search elements, compounds, or agrochemicals..." autocomplete="off">
+            <div id="search-results"></div>
+        </div>
+
+        <div class="tab-container">
+            <button class="tab-btn active gen-tab" onclick="switchTab('general')">General Chemistry</button>
+            <button class="tab-btn agro-tab" onclick="switchTab('agro')">Agricultural Chemistry</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- TAB 1: General Chemistry -->
+        <section id="general-tab" class="tab-content active">
+            <div class="lab-panel gen-panel">
+                <h2>Reaction Simulator</h2>
+                <p style="color: #888; margin-top: 10px;">Select two reactants to observe the chemical reaction.</p>
+                
+                <div class="mixer-area">
+                    <select id="reactant1">
+                        <option value="" disabled selected>Select Reactant 1</option>
+                    </select>
+                    
+                    <span class="mix-sign">+</span>
+                    
+                    <select id="reactant2">
+                        <option value="" disabled selected>Select Reactant 2</option>
+                    </select>
+                </div>
+
+                <button class="btn-mix" onclick="mixChemicals()">MIX</button>
+
+                <div class="result-area" id="gen-result">
+                    <div class="flask" id="flask-anim">
+                        <div class="liquid"></div>
+                    </div>
+                    <h3 class="result-title" id="result-name">Awaiting Input...</h3>
+                    <div class="equation" id="result-equation"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Agricultural Chemistry -->
+        <section id="agro-tab" class="tab-content">
+            <div class="lab-panel agro-panel">
+                <h2><span class="highlight-green">Agrochemical</span> Recipes & Usage</h2>
+                <p style="color: #888; margin-top: 10px;">Explore common fertilizers, pesticides, and fungicides used in agriculture.</p>
+                
+                <div class="agro-grid" id="agro-container">
+                    <!-- Cards will be generated here by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Search Modal -->
+    <div id="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        /* === JAVASCRIPT LOGIC === */
+
+        // --- 1. Database/Dictionary ---
+
+        // General Chemistry Reactions (Format: "Reactant1+Reactant2" alphabetically sorted)
+        const generalReactions = {
+            "Cl+Na": { name: "Sodium Chloride (Table Salt)", equation: "2Na + Cl₂ ➔ 2NaCl", color: "#ffffff" },
+            "H+O": { name: "Water", equation: "2H₂ + O₂ ➔ 2H₂O", color: "#00f3ff" },
+            "C+O": { name: "Carbon Dioxide", equation: "C + O₂ ➔ CO₂", color: "#aaaaaa" },
+            "Fe+O": { name: "Iron(III) Oxide (Rust)", equation: "4Fe + 3O₂ ➔ 2Fe₂O₃", color: "#a52a2a" },
+            "HCl+NaOH": { name: "Salt Water (Neutralization)", equation: "HCl + NaOH ➔ NaCl + H₂O", color: "#00f3ff" },
+            "Ca+O": { name: "Calcium Oxide (Quicklime)", equation: "2Ca + O₂ ➔ 2CaO", color: "#eeeeee" },
+            "H+N": { name: "Ammonia", equation: "N₂ + 3H₂ ➔ 2NH₃", color: "#cccccc" },
+            "C+H": { name: "Methane", equation: "C + 2H₂ ➔ CH₄", color: "#88ff88" },
+            "K+O": { name: "Potassium Oxide", equation: "4K + O₂ ➔ 2K₂O", color: "#ffcccc" },
+            "Cl+H": { name: "Hydrochloric Acid", equation: "H₂ + Cl₂ ➔ 2HCl", color: "#ffffaa" },
+            "Mg+O": { name: "Magnesium Oxide", equation: "2Mg + O₂ ➔ 2MgO", color: "#ffffff" },
+            "Al+O": { name: "Aluminum Oxide", equation: "4Al + 3O₂ ➔ 2Al₂O₃", color: "#e6e6e6" },
+            "O+S": { name: "Sulfur Dioxide", equation: "S + O₂ ➔ SO₂", color: "#ffff99" },
+            "Cu+O": { name: "Copper(II) Oxide", equation: "2Cu + O₂ ➔ 2CuO", color: "#333333" },
+            "O+Zn": { name: "Zinc Oxide", equation: "2Zn + O₂ ➔ 2ZnO", color: "#ffffff" },
+            "S+Zn": { name: "Zinc Sulfide", equation: "Zn + S ➔ ZnS", color: "#ffffcc" },
+            "H+Na": { name: "Sodium Hydride", equation: "2Na + H₂ ➔ 2NaH", color: "#cccccc" },
+            "Cl+Li": { name: "Lithium Chloride", equation: "2Li + Cl₂ ➔ 2LiCl", color: "#ffffff" },
+            "Cl+K": { name: "Potassium Chloride", equation: "2K + Cl₂ ➔ 2KCl", color: "#ffffff" },
+            "Ca+Cl": { name: "Calcium Chloride", equation: "Ca + Cl₂ ➔ CaCl₂", color: "#ffffff" },
+            "Cu+S": { name: "Copper(II) Sulfide", equation: "Cu + S ➔ CuS", color: "#1a1a1a" },
+            "O+P": { name: "Phosphorus Pentoxide", equation: "P₄ + 5O₂ ➔ P₄O₁₀", color: "#ffffff" },
+            "F+H": { name: "Hydrogen Fluoride", equation: "H₂ + F₂ ➔ 2HF", color: "#ccffcc" }
+        };
+
+        const availableElements = [
+            "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", 
+            "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", 
+            "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", 
+            "HCl", "NaOH"
+        ];
+
+        // Agricultural Chemicals (Recipes & Info)
+        const agroChemicals = [
+            {
+                name: "Urea (Nitrogen Fertilizer)",
+                formula: "CO(NH₂)₂",
+                type: "Fertilizer",
+                use: "Provides plants with Nitrogen to promote green leafy growth and protein formation.",
+                reaction: "2NH₃ + CO₂ ➔ CO(NH₂)₂ + H₂O"
+            },
+            {
+                name: "DAP (Diammonium Phosphate)",
+                formula: "(NH₄)₂HPO₄",
+                type: "Fertilizer",
+                use: "Excellent source of Phosphorus and Nitrogen; stimulates root development and early plant growth.",
+                reaction: "2NH₃ + H₃PO₄ ➔ (NH₄)₂HPO₄"
+            },
+            {
+                name: "Bordeaux Mixture",
+                formula: "CuSO₄ + Ca(OH)₂",
+                type: "Fungicide",
+                use: "Controls fungi and bacterial diseases in fruit trees, vines, and ornamental plants.",
+                reaction: "CuSO₄ + Ca(OH)₂ ➔ Cu(OH)₂ + CaSO₄"
+            },
+            {
+                name: "2,4-D (Dichlorophenoxyacetic acid)",
+                formula: "C₈H₆Cl₂O₃",
+                type: "Weedicide",
+                use: "Systemic herbicide used to control broadleaf weeds without harming grasses (like wheat or corn).",
+                reaction: "Chloroacetic acid + 2,4-Dichlorophenol ➔ 2,4-D"
+            },
+            {
+                name: "Superphosphate (SSP)",
+                formula: "Ca(H₂PO₄)₂",
+                type: "Fertilizer",
+                use: "Provides Phosphorus and Calcium, essential for seed formation and fruit ripening.",
+                reaction: "Ca₃(PO₄)₂ + 2H₂SO₄ ➔ Ca(H₂PO₄)₂ + 2CaSO₄"
+            },
+            {
+                name: "Muriate of Potash (MOP)",
+                formula: "KCl",
+                type: "Fertilizer",
+                use: "Potassium source that improves crop quality, water retention, and disease resistance.",
+                reaction: "Extracted and refined from Sylvinite ore (KCl/NaCl)"
+            },
+            {
+                name: "Malathion",
+                formula: "C₁₀H₁₉O₆PS₂",
+                type: "Pesticide (Insecticide)",
+                use: "Organophosphate insecticide used to control sucking and chewing insects on crops.",
+                reaction: "O,O-Dimethyl phosphorodithioate + Diethyl maleate"
+            },
+            {
+                name: "Calcium Ammonium Nitrate (CAN)",
+                formula: "5Ca(NO₃)₂·NH₄NO₃·10H₂O",
+                type: "Fertilizer",
+                use: "Neutral nitrogen fertilizer suitable for acidic soils; provides Nitrogen and Calcium.",
+                reaction: "Melted Ammonium Nitrate + Pulverized Limestone"
+            },
+            {
+                name: "Glyphosate",
+                formula: "C₃H₈NO₅P",
+                type: "Weedicide",
+                use: "Broad-spectrum systemic herbicide applied to leaves to kill both broadleaf weeds and grasses.",
+                reaction: "Dimethyl phosphite + Formaldehyde + Glycine"
+            },
+            {
+                name: "Lime Sulfur",
+                formula: "CaSx",
+                type: "Fungicide/Insecticide",
+                use: "Used on dormant trees to control fungi, bacteria, and insects like mites and scale.",
+                reaction: "Ca(OH)₂ + S + Heat ➔ CaSx + H₂O"
+            }
+        ];
+
+        // --- 2. Initialization ---
+
+        window.onload = () => {
+            populateDropdowns();
+            renderAgroCards();
+        };
+
+        function populateDropdowns() {
+            const select1 = document.getElementById('reactant1');
+            const select2 = document.getElementById('reactant2');
+            
+            // Sort elements alphabetically for dropdown
+            const sortedElements = [...availableElements].sort();
+
+            sortedElements.forEach(el => {
+                let opt1 = document.createElement('option');
+                opt1.value = el; opt1.text = el;
+                select1.add(opt1);
+
+                let opt2 = document.createElement('option');
+                opt2.value = el; opt2.text = el;
+                select2.add(opt2);
+            });
+        }
+
+        // --- 3. Tab Switching ---
+
+        function switchTab(tab) {
+            // Update Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(tab === 'general') {
+                document.querySelector('.gen-tab').classList.add('active');
+            } else {
+                document.querySelector('.agro-tab').classList.add('active');
+            }
+
+            // Update Content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+
+        // --- 4. General Chemistry Logic ---
+
+        function mixChemicals() {
+            const r1 = document.getElementById('reactant1').value;
+            const r2 = document.getElementById('reactant2').value;
+            
+            const resultArea = document.getElementById('gen-result');
+            const resultName = document.getElementById('result-name');
+            const resultEq = document.getElementById('result-equation');
+            const flask = document.getElementById('flask-anim');
+
+            // Reset UI
+            resultArea.classList.remove('success-glow');
+            flask.style.display = 'block';
+            flask.classList.remove('bubbling');
+            resultName.style.color = '#fff';
+
+            if (!r1 || !r2) {
+                resultName.innerText = "Please select two reactants.";
+                resultEq.innerText = "";
+                flask.style.display = 'none';
+                return;
+            }
+
+            // Create search key (alphabetical to handle r1+r2 or r2+r1)
+            const key = [r1, r2].sort().join('+');
+            
+            resultName.innerText = "Mixing...";
+            resultEq.innerText = "";
+            
+            // Trigger Animation
+            setTimeout(() => {
+                flask.classList.add('bubbling');
+            }, 50);
+
+            // Calculate Result after animation delay
+            setTimeout(() => {
+                if (generalReactions[key]) {
+                    const reaction = generalReactions[key];
+                    resultName.innerText = reaction.name;
+                    resultName.style.color = 'var(--neon-blue)';
+                    resultEq.innerText = reaction.equation;
+                    resultArea.classList.add('success-glow');
+                    document.documentElement.style.setProperty('--neon-blue', reaction.color); // Change flask color
+                } else {
+                    resultName.innerText = "No Reaction";
+                    resultName.style.color = "#ff4444";
+                    resultEq.innerText = `${r1} and ${r2} do not react under standard conditions here.`;
+                    flask.classList.remove('bubbling');
+                }
+            }, 1500);
+        }
+
+        // --- 5. Agricultural Chemistry Logic ---
+
+        function renderAgroCards() {
+            const container = document.getElementById('agro-container');
+            container.innerHTML = '';
+
+            agroChemicals.forEach(chem => {
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+                    <h3 class="card-title">${chem.name}</h3>
+                    <div class="card-formula">${chem.formula} <span style="color:var(--neon-pink); font-size:0.8rem; float:right;">[${chem.type}]</span></div>
+                    <p class="card-use">${chem.use}</p>
+                    <div class="card-reaction">${chem.reaction}</div>
+                `;
+                // Add click event to open in modal for better focus
+                card.onclick = () => showModal(chem);
+                container.appendChild(card);
+            });
+        }
+
+        // --- 6. Search Functionality & Modal ---
+
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const modal = document.getElementById('modal');
+
+        // Combine data for search
+        let searchableData = [];
+        agroChemicals.forEach(c => searchableData.push({ ...c, searchType: 'agro' }));
+        Object.values(generalReactions).forEach(r => searchableData.push({ ...r, searchType: 'gen' }));
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            searchResults.innerHTML = '';
+            
+            if (val.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const matches = searchableData.filter(item => 
+                item.name.toLowerCase().includes(val) || 
+                (item.formula && item.formula.toLowerCase().includes(val)) ||
+                (item.equation && item.equation.toLowerCase().includes(val))
+            );
+
+            if (matches.length > 0) {
+                searchResults.style.display = 'block';
+                matches.forEach(match => {
+                    const div = document.createElement('div');
+                    div.className = 'search-item';
+                    div.innerText = match.name;
+                    div.onclick = () => {
+                        showModal(match);
+                        searchInput.value = '';
+                        searchResults.style.display = 'none';
+                    };
+                    searchResults.appendChild(div);
+                });
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // Hide search results if clicked outside
+        document.addEventListener('click', (e) => {
+            if(e.target.id !== 'search-input') {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        function showModal(data) {
+            const body = document.getElementById('modal-body');
+            
+            if (data.searchType === 'agro' || data.type) {
+                body.innerHTML = `
+                    <h2 style="color: var(--neon-green); margin-bottom: 10px;">${data.name}</h2>
+                    <h3 style="color: #fff; margin-bottom: 15px; font-family: monospace;">Formula: ${data.formula}</h3>
+                    <p style="color: var(--neon-pink); margin-bottom: 10px;"><strong>Type:</strong> ${data.type}</p>
+                    <p style="color: #ccc; margin-bottom: 20px; line-height: 1.5;"><strong>Usage:</strong> ${data.use}</p>
+                    <div style="background: #000; padding: 15px; border-radius: 5px; font-family: monospace; color: #888;">
+                        <strong>Reaction/Recipe:</strong><br>${data.reaction}
+                    </div>
+                `;
+            } else {
+                body.innerHTML = `
+                    <h2 style="color: var(--neon-blue); margin-bottom: 10px;">${data.name}</h2>
+                    <div style="background: #000; padding: 15px; border-radius: 5px; font-family: monospace; color: #aaa; font-size: 1.2rem; text-align: center;">
+                        ${data.equation}
+                    </div>
+                `;
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

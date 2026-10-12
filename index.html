@@ -748,7 +748,828 @@
             if (event.target == modal) {
                 closeModal();
             }
-        }
+        }const chemistryReactions = [
+  // --- ACID-BASE REACTIONS (1-15) ---
+  {
+    "id": 1,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{HCl} + \\mathrm{NaOH}$",
+    "product": "$\\mathrm{NaCl} + \\mathrm{H_2O}$",
+    "name": "Hydrochloric Acid Neutralization",
+    "description": "A strong acid reacts with a strong base to yield table salt and water."
+  },
+  {
+    "id": 2,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{H_2SO_4} + \\mathrm{2KOH}$",
+    "product": "$\\mathrm{K_2SO_4} + \\mathrm{2H_2O}$",
+    "name": "Sulfuric Acid Neutralization",
+    "description": "Sulfuric acid is neutralized by potassium hydroxide to form potassium sulfate."
+  },
+  {
+    "id": 3,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{HNO_3} + \\mathrm{NH_4OH}$",
+    "product": "$\\mathrm{NH_4NO_3} + \\mathrm{H_2O}$",
+    "name": "Nitric Acid Neutralization",
+    "description": "Forms ammonium nitrate, a very common nitrogen-rich agricultural fertilizer."
+  },
+  {
+    "id": 4,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{CH_3COOH} + \\mathrm{NaOH}$",
+    "product": "$\\mathrm{CH_3COONa} + \\mathrm{H_2O}$",
+    "name": "Acetic Acid Neutralization",
+    "description": "A weak acid (vinegar) reacts with a strong base to form sodium acetate."
+  },
+  {
+    "id": 5,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{H_3PO_4} + \\mathrm{3NaOH}$",
+    "product": "$\\mathrm{Na_3PO_4} + \\mathrm{3H_2O}$",
+    "name": "Phosphoric Acid Neutralization",
+    "description": "Complete neutralization of phosphoric acid yields sodium phosphate."
+  },
+  {
+    "id": 6,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{HCl} + \\mathrm{NH_3}$",
+    "product": "$\\mathrm{NH_4Cl}$",
+    "name": "Ammonium Chloride Formation",
+    "description": "Ammonia gas and hydrogen chloride gas react to form a solid white salt."
+  },
+  {
+    "id": 7,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{H_2CO_3} + \\mathrm{Ca(OH)_2}$",
+    "product": "$\\mathrm{CaCO_3} + \\mathrm{2H_2O}$",
+    "name": "Carbonic Acid Neutralization",
+    "description": "Carbonic acid reacts with limewater to precipitate calcium carbonate."
+  },
+  {
+    "id": 8,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{2HCl} + \\mathrm{Mg(OH)_2}$",
+    "product": "$\\mathrm{MgCl_2} + \\mathrm{2H_2O}$",
+    "name": "Magnesium Hydroxide Neutralization",
+    "description": "Common antacid reaction neutralizing stomach acid."
+  },
+  {
+    "id": 9,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{H_2SO_4} + \\mathrm{Ca(OH)_2}$",
+    "product": "$\\mathrm{CaSO_4} + \\mathrm{2H_2O}$",
+    "name": "Gypsum Formation",
+    "description": "Neutralization forming calcium sulfate, widely used in agriculture to improve soil structure."
+  },
+  {
+    "id": 10,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{HCN} + \\mathrm{NaOH}$",
+    "product": "$\\mathrm{NaCN} + \\mathrm{H_2O}$",
+    "name": "Hydrogen Cyanide Neutralization",
+    "description": "A highly toxic weak acid is neutralized to form sodium cyanide."
+  },
+  {
+    "id": 11,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{H_2S} + \\mathrm{2NaOH}$",
+    "product": "$\\mathrm{Na_2S} + \\mathrm{2H_2O}$",
+    "name": "Hydrogen Sulfide Neutralization",
+    "description": "Neutralization of sour gas (hydrogen sulfide) with caustic soda."
+  },
+  {
+    "id": 12,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{HF} + \\mathrm{KOH}$",
+    "product": "$\\mathrm{KF} + \\mathrm{H_2O}$",
+    "name": "Hydrofluoric Acid Neutralization",
+    "description": "Forms potassium fluoride, used in agriculture and metallurgy."
+  },
+  {
+    "id": 13,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{3HCl} + \\mathrm{Al(OH)_3}$",
+    "product": "$\\mathrm{AlCl_3} + \\mathrm{3H_2O}$",
+    "name": "Aluminum Hydroxide Neutralization",
+    "description": "Another common antacid reaction clearing excess hydrochloric acid."
+  },
+  {
+    "id": 14,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{HClO_4} + \\mathrm{NaOH}$",
+    "product": "$\\mathrm{NaClO_4} + \\mathrm{H_2O}$",
+    "name": "Perchloric Acid Neutralization",
+    "description": "A very strong acid forming sodium perchlorate."
+  },
+  {
+    "id": 15,
+    "category": "Acid-Base",
+    "reactant": "$\\mathrm{H_2SO_3} + \\mathrm{2NaOH}$",
+    "product": "$\\mathrm{Na_2SO_3} + \\mathrm{2H_2O}$",
+    "name": "Sulfurous Acid Neutralization",
+    "description": "Forms sodium sulfite, often used as a preservative."
+  },
+
+  // --- PRECIPITATION REACTIONS (16-25) ---
+  {
+    "id": 16,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{AgNO_3} + \\mathrm{NaCl}$",
+    "product": "$\\mathrm{AgCl} + \\mathrm{NaNO_3}$",
+    "name": "Silver Chloride Precipitation",
+    "description": "Yields a distinct white precipitate of silver chloride."
+  },
+  {
+    "id": 17,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{BaCl_2} + \\mathrm{Na_2SO_4}$",
+    "product": "$\\mathrm{BaSO_4} + \\mathrm{2NaCl}$",
+    "name": "Barium Sulfate Precipitation",
+    "description": "Forms an insoluble heavy white precipitate of barium sulfate."
+  },
+  {
+    "id": 18,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{Pb(NO_3)_2} + \\mathrm{2KI}$",
+    "product": "$\\mathrm{PbI_2} + \\mathrm{2KNO_3}$",
+    "name": "Golden Rain Reaction",
+    "description": "Produces a brilliant yellow precipitate of lead(II) iodide."
+  },
+  {
+    "id": 19,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{CaCl_2} + \\mathrm{Na_2CO_3}$",
+    "product": "$\\mathrm{CaCO_3} + \\mathrm{2NaCl}$",
+    "name": "Calcium Carbonate Precipitation",
+    "description": "Demonstrates the formation of limestone/chalk in aqueous solutions."
+  },
+  {
+    "id": 20,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{CuSO_4} + \\mathrm{2NaOH}$",
+    "product": "$\\mathrm{Cu(OH)_2} + \\mathrm{Na_2SO_4}$",
+    "name": "Copper(II) Hydroxide Formation",
+    "description": "Creates a pale blue gelatinous precipitate."
+  },
+  {
+    "id": 21,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{FeCl_3} + \\mathrm{3NaOH}$",
+    "product": "$\\mathrm{Fe(OH)_3} + \\mathrm{3NaCl}$",
+    "name": "Iron(III) Hydroxide Formation",
+    "description": "Produces a reddish-brown rust-colored precipitate."
+  },
+  {
+    "id": 22,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{ZnSO_4} + \\mathrm{Na_2S}$",
+    "product": "$\\mathrm{ZnS} + \\mathrm{Na_2SO_4}$",
+    "name": "Zinc Sulfide Precipitation",
+    "description": "Forms a white precipitate of zinc sulfide."
+  },
+  {
+    "id": 23,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{MgCl_2} + \\mathrm{2KOH}$",
+    "product": "$\\mathrm{Mg(OH)_2} + \\mathrm{2KCl}$",
+    "name": "Magnesium Hydroxide Precipitation",
+    "description": "Precipitates magnesium hydroxide from solution."
+  },
+  {
+    "id": 24,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{Al_2(SO_4)_3} + \\mathrm{6NH_4OH}$",
+    "product": "$\\mathrm{2Al(OH)_3} + \\mathrm{3(NH_4)_2SO_4}$",
+    "name": "Aluminum Hydroxide Flocculation",
+    "description": "Used in water treatment to clarify cloudy water."
+  },
+  {
+    "id": 25,
+    "category": "Precipitation",
+    "reactant": "$\\mathrm{SrCl_2} + \\mathrm{Na_2SO_4}$",
+    "product": "$\\mathrm{SrSO_4} + \\mathrm{2NaCl}$",
+    "name": "Strontium Sulfate Precipitation",
+    "description": "Produces a fine white precipitate of strontium sulfate."
+  },
+
+  // --- SYNTHESIS REACTIONS (26-35) ---
+  {
+    "id": 26,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{2H_2} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{2H_2O}$",
+    "name": "Water Synthesis",
+    "description": "Hydrogen and oxygen combust to form water."
+  },
+  {
+    "id": 27,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{N_2} + \\mathrm{3H_2}$",
+    "product": "$\\mathrm{2NH_3}$",
+    "name": "Haber Process",
+    "description": "Crucial agricultural reaction synthesizing ammonia for fertilizers."
+  },
+  {
+    "id": 28,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{2Na} + \\mathrm{Cl_2}$",
+    "product": "$\\mathrm{2NaCl}$",
+    "name": "Sodium Chloride Synthesis",
+    "description": "Highly reactive sodium and toxic chlorine gas form table salt."
+  },
+  {
+    "id": 29,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{2Mg} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{2MgO}$",
+    "name": "Magnesium Combustion",
+    "description": "Magnesium burns with a bright white light to form magnesium oxide."
+  },
+  {
+    "id": 30,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{C} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{CO_2}$",
+    "name": "Carbon Dioxide Synthesis",
+    "description": "Complete combustion of carbon to form carbon dioxide."
+  },
+  {
+    "id": 31,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{S} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{SO_2}$",
+    "name": "Sulfur Dioxide Synthesis",
+    "description": "Burning sulfur produces choking sulfur dioxide gas."
+  },
+  {
+    "id": 32,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{2CO} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{2CO_2}$",
+    "name": "Carbon Monoxide Oxidation",
+    "description": "Carbon monoxide is oxidized to carbon dioxide."
+  },
+  {
+    "id": 33,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{CaO} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{Ca(OH)_2}$",
+    "name": "Slaking of Lime",
+    "description": "Quicklime reacts with water to form slaked lime, releasing heat."
+  },
+  {
+    "id": 34,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{2SO_2} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{2SO_3}$",
+    "name": "Sulfur Trioxide Synthesis",
+    "description": "Key step in the Contact Process for making sulfuric acid."
+  },
+  {
+    "id": 35,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{P_4} + \\mathrm{5O_2}$",
+    "product": "$\\mathrm{P_4O_{10}}$",
+    "name": "Phosphorus Pentoxide Synthesis",
+    "description": "White phosphorus burns in oxygen, forming a potent desiccant."
+  },
+
+  // --- DECOMPOSITION REACTIONS (36-45) ---
+  {
+    "id": 36,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{2H_2O_2}$",
+    "product": "$\\mathrm{2H_2O} + \\mathrm{O_2}$",
+    "name": "Hydrogen Peroxide Decomposition",
+    "description": "Breaks down into water and oxygen gas, often catalyzed by manganese dioxide."
+  },
+  {
+    "id": 37,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{CaCO_3}$",
+    "product": "$\\mathrm{CaO} + \\mathrm{CO_2}$",
+    "name": "Calcination of Limestone",
+    "description": "Heating limestone produces quicklime and carbon dioxide."
+  },
+  {
+    "id": 38,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{2KClO_3}$",
+    "product": "$\\mathrm{2KCl} + \\mathrm{3O_2}$",
+    "name": "Potassium Chlorate Decomposition",
+    "description": "Heated potassium chlorate releases oxygen gas."
+  },
+  {
+    "id": 39,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{H_2CO_3}$",
+    "product": "$\\mathrm{H_2O} + \\mathrm{CO_2}$",
+    "name": "Carbonic Acid Decomposition",
+    "description": "The reaction that makes carbonated beverages fizz."
+  },
+  {
+    "id": 40,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{2NaN_3}$",
+    "product": "$\\mathrm{2Na} + \\mathrm{3N_2}$",
+    "name": "Sodium Azide Decomposition",
+    "description": "Rapidly produces nitrogen gas, used to inflate automobile airbags."
+  },
+  {
+    "id": 41,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{2H_2O}$",
+    "product": "$\\mathrm{2H_2} + \\mathrm{O_2}$",
+    "name": "Electrolysis of Water",
+    "description": "Electrical current splits water into hydrogen and oxygen gases."
+  },
+  {
+    "id": 42,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{CuCO_3}$",
+    "product": "$\\mathrm{CuO} + \\mathrm{CO_2}$",
+    "name": "Copper(II) Carbonate Decomposition",
+    "description": "Green copper carbonate powder turns into black copper oxide upon heating."
+  },
+  {
+    "id": 43,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{2Ag_2O}$",
+    "product": "$\\mathrm{4Ag} + \\mathrm{O_2}$",
+    "name": "Silver Oxide Decomposition",
+    "description": "Thermal decomposition yielding pure silver metal and oxygen."
+  },
+  {
+    "id": 44,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{NH_4NO_3}$",
+    "product": "$\\mathrm{N_2O} + \\mathrm{2H_2O}$",
+    "name": "Ammonium Nitrate Decomposition",
+    "description": "Produces laughing gas (nitrous oxide) and water vapor when carefully heated."
+  },
+  {
+    "id": 45,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{2FeSO_4}$",
+    "product": "$\\mathrm{Fe_2O_3} + \\mathrm{SO_2} + \\mathrm{SO_3}$",
+    "name": "Iron(II) Sulfate Decomposition",
+    "description": "Yields iron oxide and a mixture of sulfur dioxide and sulfur trioxide."
+  },
+
+  // --- REDOX & SINGLE DISPLACEMENT (46-55) ---
+  {
+    "id": 46,
+    "category": "Redox",
+    "reactant": "$\\mathrm{Zn} + \\mathrm{2HCl}$",
+    "product": "$\\mathrm{ZnCl_2} + \\mathrm{H_2}$",
+    "name": "Zinc and Hydrochloric Acid",
+    "description": "A classic single displacement generating hydrogen gas."
+  },
+  {
+    "id": 47,
+    "category": "Redox",
+    "reactant": "$\\mathrm{Mg} + \\mathrm{H_2SO_4}$",
+    "product": "$\\mathrm{MgSO_4} + \\mathrm{H_2}$",
+    "name": "Magnesium and Sulfuric Acid",
+    "description": "Magnesium dissolves in acid to yield hydrogen gas and magnesium sulfate."
+  },
+  {
+    "id": 48,
+    "category": "Redox",
+    "reactant": "$\\mathrm{2Na} + \\mathrm{2H_2O}$",
+    "product": "$\\mathrm{2NaOH} + \\mathrm{H_2}$",
+    "name": "Sodium in Water",
+    "description": "Highly exothermic reaction forming sodium hydroxide and explosive hydrogen gas."
+  },
+  {
+    "id": 49,
+    "category": "Redox",
+    "reactant": "$\\mathrm{Fe} + \\mathrm{CuSO_4}$",
+    "product": "$\\mathrm{FeSO_4} + \\mathrm{Cu}$",
+    "name": "Iron and Copper Sulfate",
+    "description": "Iron displaces copper from solution, plating the iron with copper metal."
+  },
+  {
+    "id": 50,
+    "category": "Redox",
+    "reactant": "$\\mathrm{Cu} + \\mathrm{2AgNO_3}$",
+    "product": "$\\mathrm{Cu(NO_3)_2} + \\mathrm{2Ag}$",
+    "name": "Copper and Silver Nitrate",
+    "description": "Copper wire grows beautiful silver crystals as it displaces silver."
+  },
+  {
+    "id": 51,
+    "category": "Redox",
+    "reactant": "$\\mathrm{Cl_2} + \\mathrm{2NaBr}$",
+    "product": "$\\mathrm{2NaCl} + \\mathrm{Br_2}$",
+    "name": "Halogen Displacement (Chlorine)",
+    "description": "More reactive chlorine displaces bromine from sodium bromide."
+  },
+  {
+    "id": 52,
+    "category": "Redox",
+    "reactant": "$\\mathrm{Fe_2O_3} + \\mathrm{2Al}$",
+    "product": "$\\mathrm{Al_2O_3} + \\mathrm{2Fe}$",
+    "name": "Thermite Reaction",
+    "description": "Extremely exothermic reaction producing molten iron metal."
+  },
+  {
+    "id": 53,
+    "category": "Redox",
+    "reactant": "$\\mathrm{4Fe} + \\mathrm{3O_2} + \\mathrm{6H_2O}$",
+    "product": "$\\mathrm{4Fe(OH)_3}$",
+    "name": "Rusting of Iron",
+    "description": "Iron oxidizes in the presence of water and oxygen to form rust."
+  },
+  {
+    "id": 54,
+    "category": "Redox",
+    "reactant": "$\\mathrm{CH_4} + \\mathrm{2O_2}$",
+    "product": "$\\mathrm{CO_2} + \\mathrm{2H_2O}$",
+    "name": "Methane Combustion",
+    "description": "Burning natural gas produces carbon dioxide and water."
+  },
+  {
+    "id": 55,
+    "category": "Redox",
+    "reactant": "$\\mathrm{2KMnO_4} + \\mathrm{16HCl}$",
+    "product": "$\\mathrm{2KCl} + \\mathrm{2MnCl_2} + \\mathrm{5Cl_2} + \\mathrm{8H_2O}$",
+    "name": "Potassium Permanganate and HCl",
+    "description": "Strong oxidizing agent reacting with acid to generate chlorine gas."
+  },
+
+  // --- AGRO/SOIL CHEMISTRY: FERTILIZERS (56-70) ---
+  {
+    "id": 56,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{CO_2} + \\mathrm{2NH_3}$",
+    "product": "$\\mathrm{CO(NH_2)_2} + \\mathrm{H_2O}$",
+    "name": "Urea Synthesis (Bosch-Meiser Process)",
+    "description": "Industrial synthesis of urea, the most widely used nitrogen fertilizer."
+  },
+  {
+    "id": 57,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{CO(NH_2)_2} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{2NH_3} + \\mathrm{CO_2}$",
+    "name": "Urea Hydrolysis in Soil",
+    "description": "Urease enzymes in soil break down urea fertilizer to release ammonia for plants."
+  },
+  {
+    "id": 58,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{NH_3} + \\mathrm{HNO_3}$",
+    "product": "$\\mathrm{NH_4NO_3}$",
+    "name": "Ammonium Nitrate Synthesis",
+    "description": "Formation of a high-nitrogen fertilizer that is instantly plant-available."
+  },
+  {
+    "id": 59,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{2NH_3} + \\mathrm{H_2SO_4}$",
+    "product": "$\\mathrm{(NH_4)_2SO_4}$",
+    "name": "Ammonium Sulfate Synthesis",
+    "description": "Creates a fertilizer providing both nitrogen and vital sulfur for crops."
+  },
+  {
+    "id": 60,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{Ca_3(PO_4)_2} + \\mathrm{2H_2SO_4}$",
+    "product": "$\\mathrm{Ca(H_2PO_4)_2} + \\mathrm{2CaSO_4}$",
+    "name": "Single Superphosphate (SSP) Production",
+    "description": "Insoluble rock phosphate treated with acid to make water-soluble phosphorus fertilizer."
+  },
+  {
+    "id": 61,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{Ca_3(PO_4)_2} + \\{4H_3PO_4}$",
+    "product": "$\\mathrm{3Ca(H_2PO_4)_2}$",
+    "name": "Triple Superphosphate (TSP) Production",
+    "description": "Yields a highly concentrated phosphorus fertilizer without calcium sulfate."
+  },
+  {
+    "id": 62,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{NH_3} + \\mathrm{H_3PO_4}$",
+    "product": "$\\mathrm{NH_4H_2PO_4}$",
+    "name": "Monoammonium Phosphate (MAP) Synthesis",
+    "description": "Combines nitrogen and phosphorus into a popular solid fertilizer."
+  },
+  {
+    "id": 63,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{2NH_3} + \\mathrm{H_3PO_4}$",
+    "product": "$\\mathrm{(NH_4)_2HPO_4}$",
+    "name": "Diammonium Phosphate (DAP) Synthesis",
+    "description": "Highly used dual-nutrient agricultural fertilizer."
+  },
+  {
+    "id": 64,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{KCl} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{K^+} + \\mathrm{Cl^-} + \\mathrm{H_2O}$",
+    "name": "Muriate of Potash (MOP) Dissolution",
+    "description": "Potassium chloride dissolves in soil water, making potassium bioavailable."
+  },
+  {
+    "id": 65,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{2KCl} + \\mathrm{H_2SO_4}$",
+    "product": "$\\mathrm{K_2SO_4} + \\mathrm{2HCl}$",
+    "name": "Sulfate of Potash (SOP) Production",
+    "description": "Produces a chloride-free potassium fertilizer for sensitive crops."
+  },
+  {
+    "id": 66,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{2NH_3} + \\mathrm{3O_2}$",
+    "product": "$\\mathrm{2NO_2^-} + \\mathrm{2H^+} + \\mathrm{2H_2O}$",
+    "name": "Nitrification (Step 1: Ammonia Oxidation)",
+    "description": "Soil bacteria (Nitrosomonas) convert ammonia to nitrite, acidifying the soil."
+  },
+  {
+    "id": 67,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{2NO_2^-} + \\mathrm{O_2}$",
+    "product": "$\\mathrm{2NO_3^-}$",
+    "name": "Nitrification (Step 2: Nitrite Oxidation)",
+    "description": "Soil bacteria (Nitrobacter) convert toxic nitrite into plant-usable nitrate."
+  },
+  {
+    "id": 68,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{5CH_2O} + \\mathrm{4NO_3^-} + \\mathrm{4H^+}$",
+    "product": "$\\mathrm{2N_2} + \\mathrm{5CO_2} + \\mathrm{7H_2O}$",
+    "name": "Denitrification Process",
+    "description": "Under anaerobic conditions, microbes reduce nitrate to nitrogen gas, losing soil N."
+  },
+  {
+    "id": 69,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{NH_4^+} + \\mathrm{OH^-}$",
+    "product": "$\\mathrm{NH_3} + \\mathrm{H_2O}$",
+    "name": "Ammonia Volatilization",
+    "description": "In alkaline soils, ammonium fertilizer converts to ammonia gas and is lost to the air."
+  },
+  {
+    "id": 70,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{CaCO_3} + \\mathrm{2H^+}$",
+    "product": "$\\mathrm{Ca^{2+}} + \\mathrm{CO_2} + \\mathrm{H_2O}$",
+    "name": "Soil Liming (Acid Neutralization)",
+    "description": "Agricultural lime neutralizes toxic soil acidity, improving crop yields."
+  },
+
+  // --- AGRO/SOIL CHEMISTRY & ENVIRONMENTAL (71-80) ---
+  {
+    "id": 71,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{2S} + \\mathrm{3O_2} + \\mathrm{2H_2O}$",
+    "product": "$\\mathrm{2H_2SO_4}$",
+    "name": "Elemental Sulfur Oxidation",
+    "description": "Soil microbes oxidize elemental sulfur to create sulfuric acid, lowering soil pH."
+  },
+  {
+    "id": 72,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{FeS_2} + \\mathrm{3.5O_2} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{Fe^{2+}} + \\mathrm{2SO_4^{2-}} + \\mathrm{2H^+}$",
+    "name": "Pyrite Oxidation (Acid Sulfate Soils)",
+    "description": "Exposure of submerged soils containing pyrite to air generates severe soil acidity."
+  },
+  {
+    "id": 73,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{CaSO_4} + \\mathrm{Na_2CO_3}$",
+    "product": "$\\mathrm{CaCO_3} + \\mathrm{Na_2SO_4}$",
+    "name": "Sodic Soil Reclamation with Gypsum",
+    "description": "Gypsum displaces toxic sodium ions with calcium, improving soil structure."
+  },
+  {
+    "id": 74,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{H_2PO_4^-} + \\mathrm{Al^{3+}}$",
+    "product": "$\\mathrm{AlPO_4} + \\mathrm{2H^+}$",
+    "name": "Phosphate Fixation by Aluminum",
+    "description": "In acidic soils, available phosphorus is locked away as insoluble aluminum phosphate."
+  },
+  {
+    "id": 75,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{ZnSO_4} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{Zn^{2+}} + \\mathrm{SO_4^{2-}} + \\mathrm{H_2O}$",
+    "name": "Zinc Sulfate Dissolution",
+    "description": "Provides essential zinc micronutrients to plants when dissolved in soil solution."
+  },
+  {
+    "id": 76,
+    "category": "Environmental",
+    "reactant": "$\\mathrm{NO_2} + \\mathrm{h\\nu}$",
+    "product": "$\\mathrm{NO} + \\mathrm{O}$",
+    "name": "Photochemical Smog Initiation",
+    "description": "Sunlight breaks down nitrogen dioxide, leading to tropospheric ozone."
+  },
+  {
+    "id": 77,
+    "category": "Environmental",
+    "reactant": "$\\mathrm{SO_3} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{H_2SO_4}$",
+    "name": "Acid Rain Formation (Sulfuric)",
+    "description": "Sulfur trioxide from emissions reacts with atmospheric moisture."
+  },
+  {
+    "id": 78,
+    "category": "Environmental",
+    "reactant": "$\\mathrm{3NO_2} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{2HNO_3} + \\mathrm{NO}$",
+    "name": "Acid Rain Formation (Nitric)",
+    "description": "Nitrogen dioxide dissolves in rain to form nitric acid."
+  },
+  {
+    "id": 79,
+    "category": "Environmental",
+    "reactant": "$\\mathrm{O_3} + \\mathrm{Cl}$",
+    "product": "$\\mathrm{ClO} + \\mathrm{O_2}$",
+    "name": "Ozone Depletion by CFCs",
+    "description": "Chlorine radicals catalytically destroy stratospheric ozone molecules."
+  },
+  {
+    "id": 80,
+    "category": "Environmental",
+    "reactant": "$\\mathrm{CO_2} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{H_2CO_3}$",
+    "name": "Ocean Acidification",
+    "description": "Atmospheric carbon dioxide dissolves in oceans forming weak carbonic acid."
+  },
+
+  // --- BIOCHEMISTRY & ORGANIC (81-90) ---
+  {
+    "id": 81,
+    "category": "Biochemistry",
+    "reactant": "$\\mathrm{6CO_2} + \\mathrm{6H_2O} + \\mathrm{Light}$",
+    "product": "$\\mathrm{C_6H_{12}O_6} + \\mathrm{6O_2}$",
+    "name": "Photosynthesis",
+    "description": "Plants convert solar energy, water, and carbon dioxide into glucose and oxygen."
+  },
+  {
+    "id": 82,
+    "category": "Biochemistry",
+    "reactant": "$\\mathrm{C_6H_{12}O_6} + \\mathrm{6O_2}$",
+    "product": "$\\mathrm{6CO_2} + \\mathrm{6H_2O} + \\mathrm{Energy}$",
+    "name": "Cellular Respiration",
+    "description": "Organisms metabolize glucose to produce vital cellular energy (ATP)."
+  },
+  {
+    "id": 83,
+    "category": "Biochemistry",
+    "reactant": "$\\mathrm{C_6H_{12}O_6}$",
+    "product": "$\\mathrm{2C_2H_5OH} + \\mathrm{2CO_2}$",
+    "name": "Alcoholic Fermentation",
+    "description": "Yeast breaks down sugars into ethanol and carbon dioxide."
+  },
+  {
+    "id": 84,
+    "category": "Biochemistry",
+    "reactant": "$\\mathrm{C_6H_{12}O_6}$",
+    "product": "$\\mathrm{2CH_3CH(OH)COOH}$",
+    "name": "Lactic Acid Fermentation",
+    "description": "Anaerobic conversion of glucose into lactic acid (occurs in muscles and yogurt)."
+  },
+  {
+    "id": 85,
+    "category": "Organic",
+    "reactant": "$\\mathrm{C_2H_4} + \\mathrm{H_2}$",
+    "product": "$\\mathrm{C_2H_6}$",
+    "name": "Hydrogenation of Ethene",
+    "description": "Addition of hydrogen to an alkene to form an alkane (used in making margarine)."
+  },
+  {
+    "id": 86,
+    "category": "Organic",
+    "reactant": "$\\mathrm{CH_3COOH} + \\mathrm{C_2H_5OH}$",
+    "product": "$\\mathrm{CH_3COOC_2H_5} + \\mathrm{H_2O}$",
+    "name": "Esterification",
+    "description": "Acid and alcohol react to form a sweet-smelling ester (ethyl acetate)."
+  },
+  {
+    "id": 87,
+    "category": "Organic",
+    "reactant": "$\\mathrm{C_3H_8} + \\mathrm{5O_2}$",
+    "product": "$\\mathrm{3CO_2} + \\mathrm{4H_2O}$",
+    "name": "Propane Combustion",
+    "description": "Complete combustion of propane gas, releasing significant heat energy."
+  },
+  {
+    "id": 88,
+    "category": "Organic",
+    "reactant": "$\\mathrm{Fat/Oil} + \\mathrm{3NaOH}$",
+    "product": "$\\mathrm{Glycerol} + \\mathrm{3Soap}$",
+    "name": "Saponification",
+    "description": "Base-catalyzed hydrolysis of triglycerides to produce soap."
+  },
+  {
+    "id": 89,
+    "category": "Organic",
+    "reactant": "$\\mathrm{C_2H_2} + \\mathrm{2.5O_2}$",
+    "product": "$\\mathrm{2CO_2} + \\mathrm{H_2O}$",
+    "name": "Acetylene Combustion",
+    "description": "Burns with extremely high heat, used in oxy-acetylene welding torches."
+  },
+  {
+    "id": 90,
+    "category": "Organic",
+    "reactant": "$\\mathrm{n(C_2H_4)}$",
+    "product": "$\\mathrm{-(CH_2-CH_2)_n-}$",
+    "name": "Polymerization of Ethylene",
+    "description": "Monomers of ethylene link to form the ubiquitous plastic, polyethylene."
+  },
+
+  // --- GENERAL INORGANIC & EVERYDAY REACTIONS (91-100) ---
+  {
+    "id": 91,
+    "category": "Everyday Chemistry",
+    "reactant": "$\\mathrm{NaHCO_3} + \\mathrm{CH_3COOH}$",
+    "product": "$\\mathrm{CH_3COONa} + \\mathrm{H_2O} + \\mathrm{CO_2}$",
+    "name": "Baking Soda and Vinegar",
+    "description": "Classic 'volcano' reaction yielding sodium acetate, water, and bubbling CO2."
+  },
+  {
+    "id": 92,
+    "category": "Industrial",
+    "reactant": "$\\mathrm{C} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{CO} + \\mathrm{H_2}$",
+    "name": "Synthesis Gas (Syngas) Production",
+    "description": "Steam reforming of coal to produce a valuable industrial gas mixture."
+  },
+  {
+    "id": 93,
+    "category": "Industrial",
+    "reactant": "$\\mathrm{CO} + \\mathrm{H_2O}$",
+    "product": "$\\mathrm{CO_2} + \\mathrm{H_2}$",
+    "name": "Water-Gas Shift Reaction",
+    "description": "Used industrially to increase the hydrogen yield from syngas."
+  },
+  {
+    "id": 94,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{4NH_3} + \\mathrm{5O_2}$",
+    "product": "$\\mathrm{4NO} + \\mathrm{6H_2O}$",
+    "name": "Ostwald Process (Step 1)",
+    "description": "Catalytic oxidation of ammonia, the first step in synthesizing nitric acid."
+  },
+  {
+    "id": 95,
+    "category": "Everyday Chemistry",
+    "reactant": "$\\mathrm{NaClO} + \\mathrm{2HCl}$",
+    "product": "$\\mathrm{NaCl} + \\mathrm{H_2O} + \\mathrm{Cl_2}$",
+    "name": "Bleach and Acid Mixing",
+    "description": "Dangerous household mistake that releases toxic chlorine gas."
+  },
+  {
+    "id": 96,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{2Al} + \\mathrm{3I_2}$",
+    "product": "$\\mathrm{2AlI_3}$",
+    "name": "Aluminum and Iodine Reaction",
+    "description": "A striking reaction initiated by a drop of water, yielding purple iodine vapor."
+  },
+  {
+    "id": 97,
+    "category": "Decomposition",
+    "reactant": "$\\mathrm{(NH_4)_2Cr_2O_7}$",
+    "product": "$\\mathrm{N_2} + \\mathrm{4H_2O} + \\mathrm{Cr_2O_3}$",
+    "name": "Ammonium Dichromate Volcano",
+    "description": "Thermal decomposition that visually resembles an erupting volcano."
+  },
+  {
+    "id": 98,
+    "category": "Everyday Chemistry",
+    "reactant": "$\\mathrm{3NaClO} + \\mathrm{NH_3}$",
+    "product": "$\\mathrm{NCl_3} + \\mathrm{3NaOH}$",
+    "name": "Bleach and Ammonia Mixing",
+    "description": "Dangerous household mistake forming toxic chloramine gases."
+  },
+  {
+    "id": 99,
+    "category": "Synthesis",
+    "reactant": "$\\mathrm{TiCl_4} + \\mathrm{2H_2O}$",
+    "product": "$\\mathrm{TiO_2} + \\mathrm{4HCl}$",
+    "name": "Titanium Tetrachloride Hydrolysis",
+    "description": "Produces thick white smoke, historically used in naval smoke screens."
+  },
+  {
+    "id": 100,
+    "category": "Agro/Soil Chemistry",
+    "reactant": "$\\mathrm{CaMg(CO_3)_2} + \\mathrm{4H^+}$",
+    "product": "$\\mathrm{Ca^{2+}} + \\mathrm{Mg^{2+}} + \\mathrm{2CO_2} + \\mathrm{2H_2O}$",
+    "name": "Dolomite Liming",
+    "description": "Neutralizes acidic soils while providing both essential calcium and magnesium."
+  }
+];
+
+// Example of how you might export this for a React/Node application:
+// export default chemistryReactions
     </script>
 </body>
 </html>
